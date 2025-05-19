@@ -135,7 +135,7 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
   return (
     <motion.div 
       className={cn(
-        "border rounded-xl overflow-hidden transition-all duration-300 backdrop-blur-md bg-background/40 dark:bg-sidebar text-foreground shadow-md border-border relative",
+        "border rounded-xl overflow-hidden transition-all duration-300 backdrop-blur-md bg-background/40 dark:bg-sidebar text-foreground shadow-md border-border relative card-hover",
         expanded ? "shadow-lg" : "shadow-md"
       )}
       initial={{ opacity: 0, y: 10 }}
@@ -161,7 +161,7 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
             <p className="text-sm text-muted-foreground leading-relaxed">{task.description}</p>
           </div>
           <motion.button
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.05)" }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setExpanded(!expanded)}
             className="p-2 rounded-full hover:bg-background/80 dark:hover:bg-sidebar-accent transition-colors ml-2"

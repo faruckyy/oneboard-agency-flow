@@ -104,11 +104,33 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans transition-colors duration-300;
   }
 }
 
 @layer components {
+  /* MacOS inspired components */
+  .macos-window {
+    @apply bg-background/95 dark:bg-sidebar/95 backdrop-blur-md rounded-2xl shadow-xl border border-border/50;
+  }
+  
+  .macos-header {
+    @apply sticky top-0 z-10 bg-background/80 dark:bg-sidebar/80 backdrop-blur-lg px-6 py-4 border-b border-border/50 flex items-center justify-between rounded-t-2xl;
+  }
+  
+  .macos-footer {
+    @apply sticky bottom-0 z-10 bg-background/80 dark:bg-sidebar/80 backdrop-blur-lg px-6 py-4 border-t border-border/50 flex justify-end gap-3 rounded-b-2xl;
+  }
+  
+  .macos-button {
+    @apply rounded-full transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  /* Card styles */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:scale-[1.01] hover:-translate-y-0.5;
+  }
+
   /* Neumorphic components */
   .neumorph-light {
     @apply bg-[#f0f0f0] dark:bg-[#1a1a1a] shadow-md transition-all;
@@ -170,10 +192,87 @@
 
   /* Sidebar styles */
   .sidebar-container {
-    @apply bg-sidebar text-sidebar-foreground h-screen w-64 fixed left-0 top-0 transition-all duration-300;
+    @apply bg-sidebar text-sidebar-foreground h-screen fixed left-0 top-0 transition-all duration-300;
   }
 
   .sidebar-collapsed {
     @apply w-16;
   }
+  
+  /* MacOS Dock animation */
+  .dock-item {
+    @apply transition-all duration-200;
+  }
+  
+  .dock-item:hover {
+    @apply scale-110;
+  }
+  
+  .dock-item:hover + .dock-item {
+    @apply scale-105;
+  }
+  
+  /* Bento grid */
+  .bento-grid {
+    @apply grid gap-4 auto-rows-auto;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+  
+  .bento-card {
+    @apply bg-background/70 dark:bg-sidebar-accent/20 backdrop-blur-md rounded-xl p-4 border border-border/50 shadow-sm transition-all;
+  }
+  
+  .bento-card:hover {
+    @apply shadow-md border-border;
+  }
+}
+
+/* Enhanced animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-bounce {
+  animation: bounce 1s ease infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes task-complete {
+  from { textDecoration: 'none'; opacity: 1; }
+  to { textDecoration: 'line-through'; opacity: 0.6; }
+}
+
+@keyframes slide-in-bottom {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }

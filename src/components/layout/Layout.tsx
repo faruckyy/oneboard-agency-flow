@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +15,8 @@ const Layout = () => {
       setIsMobile(window.innerWidth < 768);
       if (window.innerWidth < 768) {
         setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
       }
     };
 
@@ -37,11 +38,6 @@ const Layout = () => {
             <Outlet />
           </div>
         </main>
-      </div>
-      
-      {/* Theme toggle moved to a better position */}
-      <div className="fixed top-3 right-6 z-20">
-        <ThemeToggle />
       </div>
       
       <div className="fixed bottom-6 right-6 z-20">

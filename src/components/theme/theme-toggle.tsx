@@ -13,12 +13,12 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <Tooltip>
-        <TooltipTrigger asChild>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <Button
             variant="ghost"
             size="icon"
@@ -36,13 +36,13 @@ export function ThemeToggle() {
                 <Sun className="h-5 w-5 text-amber-500 transition-all" />
               )}
             </motion.div>
-            <span className="sr-only">Toggle theme</span>
+            <span className="sr-only">Alternar tema</span>
           </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {theme === "dark" ? "Mudar para modo claro" : "Mudar para modo escuro"}
-        </TooltipContent>
-      </Tooltip>
-    </motion.div>
+        </motion.div>
+      </TooltipTrigger>
+      <TooltipContent>
+        {theme === "dark" ? "Mudar para modo claro" : "Mudar para modo escuro"}
+      </TooltipContent>
+    </Tooltip>
   );
 }

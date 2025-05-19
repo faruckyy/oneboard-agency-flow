@@ -8,10 +8,10 @@ import {
   Settings, 
   ChevronLeft, 
   ChevronRight,
-  Grid 
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 interface SidebarProps {
   open: boolean;
@@ -31,7 +31,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
   ];
 
   return (
-    <>
+    <TooltipProvider>
       {/* Mobile overlay */}
       <AnimatePresence>
         {open && (
@@ -48,10 +48,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
       
       {/* Sidebar - MacOS inspired */}
       <motion.div 
-        className={cn(
-          "fixed z-20 inset-y-0 left-0 bg-sidebar flex flex-col transition-all duration-500 ease-in-out",
-          open ? "w-64" : "w-20"
-        )}
+        className="fixed z-20 inset-y-0 left-0 bg-sidebar flex flex-col transition-all duration-500 ease-in-out"
         animate={{ width: open ? 256 : 80 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
@@ -81,47 +78,64 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           
           {/* Main Navigation - MacOS style */}
           <div className="mt-6 px-4">
-            <div className="text-xs text-sidebar-foreground/50 uppercase tracking-wider font-bold mb-3 px-2">
-              {open ? "Menu Principal" : ""}
-            </div>
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="text-xs text-sidebar-foreground/50 uppercase tracking-wider font-bold mb-3 px-2"
+                >
+                  Menu Principal
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className="space-y-2">
               {links.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
-                  <motion.div
-                    key={link.path}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={cn(
-                      "flex items-center py-2 px-3 cursor-pointer transition-all duration-200 rounded-xl",
-                      isActive
-                        ? "bg-sidebar-accent text-sidebar-foreground font-medium"
-                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                  <Tooltip key={link.path}>
+                    <TooltipTrigger asChild>
+                      <motion.div
+                        whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.1)" }}
+                        whileTap={{ scale: 0.98 }}
+                        className={cn(
+                          "flex items-center py-2 px-3 cursor-pointer transition-all duration-200 rounded-xl",
+                          isActive
+                            ? "bg-sidebar-accent text-sidebar-foreground font-medium"
+                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                        )}
+                        onClick={() => {
+                          navigate(link.path);
+                          if (window.innerWidth < 768) {
+                            setOpen(false);
+                          }
+                        }}
+                      >
+                        <link.icon className={cn(
+                          "flex-shrink-0 transition-all",
+                          open ? "h-5 w-5" : "h-6 w-6"
+                        )} />
+                        <AnimatePresence>
+                          {open && (
+                            <motion.span
+                              initial={{ opacity: 0, x: -10, width: 0 }}
+                              animate={{ opacity: 1, x: 0, width: 'auto' }}
+                              exit={{ opacity: 0, x: -10, width: 0 }}
+                              className="ml-3 text-sm truncate"
+                            >
+                              {link.name}
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    </TooltipTrigger>
+                    {!open && (
+                      <TooltipContent side="right">
+                        {link.name}
+                      </TooltipContent>
                     )}
-                    onClick={() => {
-                      navigate(link.path);
-                      if (window.innerWidth < 768) {
-                        setOpen(false);
-                      }
-                    }}
-                  >
-                    <link.icon className={cn(
-                      "flex-shrink-0 transition-all",
-                      open ? "h-5 w-5" : "h-6 w-6"
-                    )} />
-                    <AnimatePresence>
-                      {open && (
-                        <motion.span
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -10 }}
-                          className="ml-3 text-sm"
-                        >
-                          {link.name}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
+                  </Tooltip>
                 );
               })}
             </div>
@@ -130,10 +144,11 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           {/* Collapsible button */}
           <div className="mt-auto border-t border-sidebar-border p-4">
             <motion.button 
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setOpen(!open)}
               className="w-full rounded-xl py-2 flex items-center justify-center hover:bg-sidebar-accent/50 transition-all"
+              aria-label={open ? "Recolher menu" : "Expandir menu"}
             >
               {open ? (
                 <ChevronLeft className="h-5 w-5 text-sidebar-foreground" />
@@ -144,7 +159,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           </div>
         </div>
       </motion.div>
-    </>
+    </TooltipProvider>
   );
 };
 
