@@ -1,10 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -13,7 +14,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    /* Blue color for the main brand */
+    --primary: 215 100% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -28,27 +30,26 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    /* Priority colors */
+    --priority-urgent: 0 84% 60%;
+    --priority-normal: 38 92% 50%;
+    --priority-low: 142 76% 36%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar specific */
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 25% 27%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 32% 17%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
@@ -61,7 +62,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 217 91% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -76,17 +77,24 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
+    /* Priority colors */
+    --priority-urgent: 0 84% 60%;
+    --priority-normal: 38 92% 50%;
+    --priority-low: 142 76% 36%;
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --ring: 217.2 91.2% 59.8%;
+
+    /* Sidebar specific */
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 215 25% 27%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 32% 17%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
@@ -96,6 +104,76 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Neumorphic components */
+  .neumorph-light {
+    @apply bg-[#f0f0f0] dark:bg-[#1a1a1a] shadow-md transition-all;
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.8);
+  }
+  
+  .dark .neumorph-light {
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3), -6px -6px 12px rgba(255, 255, 255, 0.05);
+  }
+
+  .neumorph-pressed {
+    @apply bg-[#f0f0f0] dark:bg-[#1a1a1a] transition-all;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+  }
+  
+  .dark .neumorph-pressed {
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Status badges */
+  .status-badge {
+    @apply px-2 py-1 text-xs font-medium rounded-full transition-all duration-200;
+  }
+
+  .priority-badge {
+    @apply w-1 h-full rounded-l-md transition-all duration-200;
+  }
+  
+  /* Priority colors */
+  .priority-urgent {
+    @apply bg-priority-urgent/20 text-priority-urgent border-priority-urgent;
+  }
+  
+  .priority-normal {
+    @apply bg-priority-normal/20 text-priority-normal border-priority-normal;
+  }
+  
+  .priority-low {
+    @apply bg-priority-low/20 text-priority-low border-priority-low;
+  }
+
+  /* Task completed animation */
+  .task-completed {
+    @apply animate-task-complete;
+  }
+
+  /* Modal fade in/out */
+  .modal-container {
+    @apply animate-fade-in;
+  }
+
+  .modal-overlay {
+    @apply bg-black/50 animate-fade-in;
+  }
+
+  .modal-content {
+    @apply animate-scale-in;
+  }
+
+  /* Sidebar styles */
+  .sidebar-container {
+    @apply bg-sidebar text-sidebar-foreground h-screen w-64 fixed left-0 top-0 transition-all duration-300;
+  }
+
+  .sidebar-collapsed {
+    @apply w-16;
   }
 }
