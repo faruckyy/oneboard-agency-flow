@@ -2,23 +2,35 @@
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme/theme-provider";
+import { motion } from "framer-motion";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="rounded-full transition-all duration-200 hover:scale-110"
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
-      {theme === "dark" ? (
-        <Sun className="h-5 w-5 transition-all" />
-      ) : (
-        <Moon className="h-5 w-5 transition-all" />
-      )}
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        className="rounded-full transition-all duration-500 bg-sidebar-accent hover:bg-sidebar-accent/70"
+      >
+        <motion.div
+          initial={{ rotate: 0 }}
+          animate={{ rotate: theme === "dark" ? 180 : 0 }}
+          transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
+        >
+          {theme === "dark" ? (
+            <Sun className="h-5 w-5 text-yellow-300 transition-all" />
+          ) : (
+            <Moon className="h-5 w-5 text-blue-500 transition-all" />
+          )}
+        </motion.div>
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    </motion.div>
   );
 }

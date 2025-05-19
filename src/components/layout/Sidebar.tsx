@@ -1,7 +1,17 @@
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, ClipboardList, Brush, LineChart, Settings, ChevronLeft, ChevronRight } from "lucide-react";
+import { 
+  Home, 
+  ClipboardList, 
+  Brush, 
+  LineChart, 
+  Settings, 
+  ChevronLeft, 
+  ChevronRight,
+  Grid 
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SidebarProps {
   open: boolean;
@@ -23,72 +33,114 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
   return (
     <>
       {/* Mobile overlay */}
-      {open && (
-        <div 
-          className="fixed inset-0 z-10 bg-black/50 md:hidden"
-          onClick={() => setOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm md:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
       
       {/* Sidebar */}
-      <div className={cn(
-        "fixed z-20 inset-y-0 left-0 w-64 bg-sidebar flex flex-col transition-all duration-300 ease-in-out transform md:translate-x-0",
-        open ? "translate-x-0" : "-translate-x-full"
-      )}>
-        <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
-              O
-            </div>
-            <span className="font-semibold text-sidebar-foreground">OneBoard</span>
+      <motion.div 
+        className={cn(
+          "fixed z-20 inset-y-0 left-0 bg-sidebar flex flex-col transition-all duration-500 ease-in-out",
+          open ? "w-64" : "w-20"
+        )}
+        animate={{ width: open ? 256 : 80 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <div className="flex flex-col h-full rounded-r-3xl overflow-hidden backdrop-blur-md bg-sidebar shadow-2xl">
+          {/* Mock window controls */}
+          <div className="flex items-center gap-1 pl-3 pt-3 pb-5">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
-          <button 
-            onClick={() => setOpen(false)}
-            className="p-1 rounded-full hover:bg-sidebar-accent md:hidden"
-          >
-            <ChevronLeft className="h-5 w-5 text-sidebar-foreground" />
-          </button>
-        </div>
-        
-        <div className="flex flex-col flex-1 py-4">
-          <nav className="flex-1 px-3 space-y-1">
-            {links.map((link) => {
-              const isActive = location.pathname === link.path;
-              return (
-                <div
-                  key={link.path}
-                  className={cn(
-                    "flex items-center px-3 py-2 rounded-md cursor-pointer transition-all duration-200",
-                    isActive
-                      ? "bg-sidebar-accent text-sidebar-foreground"
-                      : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
-                  )}
-                  onClick={() => {
-                    navigate(link.path);
-                    setOpen(false);
-                  }}
+
+          {/* User profile */}
+          <div className="flex items-center px-4 py-3">
+            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+              <span className="text-lg font-medium text-sidebar-foreground">O</span>
+            </div>
+            <AnimatePresence>
+              {open && (
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="ml-3 overflow-hidden"
                 >
-                  <link.icon className="h-5 w-5 mr-3" />
-                  <span className="text-sm">{link.name}</span>
-                </div>
-              );
-            })}
-          </nav>
+                  <p className="text-xs text-sidebar-foreground/70 uppercase tracking-wider font-medium">Sistema</p>
+                  <p className="text-sidebar-foreground font-semibold">OneBoard</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          
+          {/* Main Navigation */}
+          <div className="mt-6 px-3">
+            <div className="text-xs text-sidebar-foreground/50 uppercase tracking-wider font-bold mb-2 px-2">
+              {open ? "Menu Principal" : "Menu"}
+            </div>
+            <div className="space-y-1">
+              {links.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <div
+                    key={link.path}
+                    className={cn(
+                      "flex items-center py-2 px-3 rounded-xl cursor-pointer transition-all duration-300",
+                      isActive
+                        ? "bg-sidebar-accent text-sidebar-foreground font-medium"
+                        : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                    )}
+                    onClick={() => {
+                      navigate(link.path);
+                      if (window.innerWidth < 768) {
+                        setOpen(false);
+                      }
+                    }}
+                  >
+                    <link.icon className="h-5 w-5 flex-shrink-0" />
+                    <AnimatePresence>
+                      {open && (
+                        <motion.span
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -10 }}
+                          className="ml-3 text-sm"
+                        >
+                          {link.name}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          
+          {/* Collapsible button */}
+          <div className="mt-auto border-t border-sidebar-border p-4">
+            <button 
+              onClick={() => setOpen(!open)}
+              className="w-full rounded-xl py-2 flex items-center justify-center hover:bg-sidebar-accent/50 transition-all"
+            >
+              {open ? (
+                <ChevronLeft className="h-5 w-5 text-sidebar-foreground" />
+              ) : (
+                <ChevronRight className="h-5 w-5 text-sidebar-foreground" />
+              )}
+            </button>
+          </div>
         </div>
-        
-        {/* Collapse button for desktop */}
-        <div className="hidden md:block border-t border-sidebar-border p-4">
-          <button 
-            onClick={() => setOpen(!open)}
-            className="p-2 w-full rounded-md flex items-center justify-center hover:bg-sidebar-accent transition-colors"
-          >
-            <ChevronLeft className={cn(
-              "h-5 w-5 text-sidebar-foreground transition-transform",
-              open ? "" : "rotate-180"
-            )} />
-          </button>
-        </div>
-      </div>
+      </motion.div>
     </>
   );
 };
