@@ -104,29 +104,37 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm modal-overlay" 
+        className="fixed inset-0 bg-black/50 backdrop-blur-md modal-overlay" 
         onClick={onClose} 
       />
       
-      {/* Modal */}
+      {/* Modal with macOS-inspired design */}
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        className="bg-sidebar rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto modal-content p-6 relative z-10 border border-sidebar-border text-sidebar-foreground"
+        className="bg-background/95 dark:bg-sidebar rounded-2xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto modal-content p-8 relative z-10 border border-border text-foreground backdrop-blur-xl"
       >
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Briefing</h2>
-          <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-sidebar-accent/50">
-            <X className="h-4 w-4" />
+        <div className="flex justify-between items-center mb-8">
+          {/* macOS-style "window controls" */}
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+          
+          <h2 className="text-2xl font-bold text-center flex-1 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-display">Briefing</h2>
+          
+          <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-muted">
+            <X className="h-5 w-5" />
           </Button>
         </div>
         
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Title */}
           <div className="space-y-2">
-            <label htmlFor="title" className="text-xs font-medium uppercase tracking-wider text-sidebar-foreground/70">
+            <label htmlFor="title" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Título (Headline 1)
             </label>
             <Input
@@ -134,13 +142,13 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               placeholder="Qual o título do material?"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="bg-sidebar-accent/50 border-sidebar-border text-sidebar-foreground focus:ring-primary"
+              className="bg-background/20 backdrop-blur-sm border-border focus:ring-primary"
             />
           </div>
           
           {/* Subtitle */}
           <div className="space-y-2">
-            <label htmlFor="subtitle" className="text-xs font-medium uppercase tracking-wider text-sidebar-foreground/70">
+            <label htmlFor="subtitle" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Subtítulo (Headline 2)
             </label>
             <Input
@@ -148,13 +156,13 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               placeholder="Qual o subtítulo do material?"
               value={formData.subtitle}
               onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-              className="bg-sidebar-accent/50 border-sidebar-border text-sidebar-foreground focus:ring-primary"
+              className="bg-background/20 backdrop-blur-sm border-border focus:ring-primary"
             />
           </div>
           
           {/* Description */}
           <div className="space-y-2">
-            <label htmlFor="description" className="text-xs font-medium uppercase tracking-wider text-sidebar-foreground/70">
+            <label htmlFor="description" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Descrição
             </label>
             <Textarea
@@ -163,31 +171,31 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
-              className="bg-sidebar-accent/50 border-sidebar-border text-sidebar-foreground focus:ring-primary resize-none"
+              className="bg-background/20 backdrop-blur-sm border-border focus:ring-primary resize-none"
             />
           </div>
           
-          {/* Links */}
-          <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wider text-sidebar-foreground/70">Links</label>
-            <div className="flex gap-2">
+          {/* Links section - Bento-inspired grid layout */}
+          <div className="bg-background/30 backdrop-blur-md p-6 rounded-xl border border-border shadow-sm">
+            <h3 className="text-lg font-medium mb-4">Links</h3>
+            <div className="flex gap-2 mb-4">
               <Input
                 placeholder="Cole um link aqui"
                 value={newLink}
                 onChange={(e) => setNewLink(e.target.value)}
-                className="bg-sidebar-accent/50 border-sidebar-border text-sidebar-foreground focus:ring-primary"
+                className="bg-background/50 border-border"
               />
               <Button 
                 onClick={handleAddLink} 
                 size="icon" 
-                variant="ghost"
-                className="bg-sidebar-accent/50 hover:bg-sidebar-accent rounded-lg"
+                variant="secondary"
+                className="rounded-lg"
               >
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
             
-            <div className="space-y-2 mt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
               <AnimatePresence>
                 {formData.links.map((link, index) => (
                   <motion.div 
@@ -195,7 +203,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="flex items-center justify-between p-2 bg-sidebar-accent/30 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-background/40 backdrop-blur-sm rounded-lg border border-border/50"
                   >
                     <div className="flex items-center gap-2 text-sm truncate">
                       <LinkIcon className="h-3 w-3 flex-shrink-0 text-primary" />
@@ -205,7 +213,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemoveLink(index)}
-                      className="h-6 w-6 rounded-full hover:bg-sidebar-accent"
+                      className="h-6 w-6 rounded-full hover:bg-background/60"
                     >
                       <X className="h-3 w-3" />
                     </Button>
@@ -215,39 +223,39 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
             </div>
           </div>
           
-          {/* File Upload */}
-          <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wider text-sidebar-foreground/70">Arquivos</label>
+          {/* File Upload - Bento-inspired card */}
+          <div className="bg-background/30 backdrop-blur-md p-6 rounded-xl border border-border shadow-sm">
+            <h3 className="text-lg font-medium mb-4">Arquivos</h3>
             <div 
-              className="border border-dashed border-sidebar-border rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-sidebar-accent/50 transition-colors bg-sidebar-accent/20"
+              className="border-2 border-dashed border-border rounded-lg p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-background/40 transition-all"
             >
-              <Paperclip className="h-10 w-10 text-sidebar-foreground/50 mb-2" />
-              <p className="text-sm font-medium">Clique para anexar arquivos</p>
-              <p className="text-xs text-sidebar-foreground/70">(máximo 60MB)</p>
+              <Paperclip className="h-12 w-12 text-muted-foreground mb-3" />
+              <p className="text-base font-medium">Clique para anexar arquivos</p>
+              <p className="text-sm text-muted-foreground mt-1">(máximo 60MB)</p>
             </div>
           </div>
           
-          {/* Visual References */}
-          <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wider text-sidebar-foreground/70">Referências Visuais</label>
-            <div className="flex gap-2">
+          {/* Visual References - Bento-inspired layout */}
+          <div className="bg-background/30 backdrop-blur-md p-6 rounded-xl border border-border shadow-sm">
+            <h3 className="text-lg font-medium mb-4">Referências Visuais</h3>
+            <div className="flex gap-2 mb-4">
               <Input
                 placeholder="URL da referência visual"
                 value={newRef}
                 onChange={(e) => setNewRef(e.target.value)}
-                className="bg-sidebar-accent/50 border-sidebar-border text-sidebar-foreground focus:ring-primary"
+                className="bg-background/50 border-border"
               />
               <Button 
                 onClick={handleAddVisualRef} 
                 size="icon" 
-                variant="ghost"
-                className="bg-sidebar-accent/50 hover:bg-sidebar-accent rounded-lg"
+                variant="secondary"
+                className="rounded-lg"
               >
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
             
-            <div className="space-y-2 mt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
               <AnimatePresence>
                 {formData.visualReferences.map((ref, index) => (
                   <motion.div 
@@ -255,14 +263,14 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="flex items-center justify-between p-2 bg-sidebar-accent/30 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-background/40 backdrop-blur-sm rounded-lg border border-border/50"
                   >
                     <span className="text-sm truncate">{ref}</span>
                     <Button
                       variant="ghost"
                       size="icon"
                       onClick={() => handleRemoveVisualRef(index)}
-                      className="h-6 w-6 rounded-full hover:bg-sidebar-accent"
+                      className="h-6 w-6 rounded-full hover:bg-background/60"
                     >
                       <X className="h-3 w-3" />
                     </Button>
@@ -274,17 +282,17 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
         </div>
         
         {/* Action buttons */}
-        <div className="flex justify-end gap-2 mt-8">
+        <div className="flex justify-end gap-3 mt-8">
           <Button 
             variant="outline" 
             onClick={onClose}
-            className="border-sidebar-border hover:bg-sidebar-accent text-sidebar-foreground"
+            className="rounded-full px-6 border-border hover:bg-background/60"
           >
             Cancelar
           </Button>
           <Button 
             onClick={handleSubmit}
-            className="bg-primary hover:bg-primary/90"
+            className="bg-primary hover:bg-primary/90 rounded-full px-6"
           >
             Salvar Briefing
           </Button>

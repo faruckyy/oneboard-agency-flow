@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { 
@@ -20,7 +19,7 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-md bg-background/40 dark:bg-sidebar/40 border-b border-border/40">
       <div className="flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2 md:gap-6">
           <Tooltip>
@@ -29,7 +28,7 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
                 variant="ghost"
                 size="icon"
                 onClick={toggleSidebar}
-                className="md:hidden"
+                className="rounded-full hover:bg-background/60"
               >
                 {isSidebarOpen ? (
                   <X className="h-5 w-5 transition-transform duration-300" />
@@ -43,21 +42,24 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
             </TooltipContent>
           </Tooltip>
           
-          <motion.h1
+          <motion.div
             onClick={() => navigate("/")}
-            className="text-2xl font-bold cursor-pointer transition-all hover:text-primary flex items-center gap-2"
+            className="text-2xl font-bold cursor-pointer transition-all hover:text-primary flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
+            {/* Use the 71 Project logo style */}
+            <div className="w-8 h-8 rounded-full bg-amber-400 dark:bg-amber-500 flex items-center justify-center text-black">
               O
             </div>
-            <span className="hidden sm:inline bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">OneBoard</span>
-          </motion.h1>
+            <span className="hidden sm:inline font-display bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              OneBoard
+            </span>
+          </motion.div>
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="text-sm font-medium text-muted-foreground">
+          <div className="text-sm font-medium text-muted-foreground hidden md:block">
             {new Date().toLocaleDateString('pt-BR', { 
               weekday: 'long', 
               year: 'numeric', 

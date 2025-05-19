@@ -46,7 +46,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
         )}
       </AnimatePresence>
       
-      {/* Sidebar */}
+      {/* Sidebar - MacOS inspired */}
       <motion.div 
         className={cn(
           "fixed z-20 inset-y-0 left-0 bg-sidebar flex flex-col transition-all duration-500 ease-in-out",
@@ -55,16 +55,12 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
         animate={{ width: open ? 256 : 80 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <div className="flex flex-col h-full rounded-r-3xl overflow-hidden backdrop-blur-md bg-sidebar shadow-2xl">
-          {/* Mock window controls */}
-          <div className="flex items-center gap-1 pl-3 pt-3 pb-5">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          </div>
-
+        <div className="flex flex-col h-full rounded-r-3xl overflow-hidden backdrop-blur-md bg-sidebar/95 shadow-2xl">
+          {/* Space for header */}
+          <div className="h-16 flex-shrink-0"></div>
+          
           {/* User profile */}
-          <div className="flex items-center px-4 py-3">
+          <div className="flex items-center px-5 py-6">
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
               <span className="text-lg font-medium text-sidebar-foreground">O</span>
             </div>
@@ -83,19 +79,21 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
             </AnimatePresence>
           </div>
           
-          {/* Main Navigation */}
-          <div className="mt-6 px-3">
-            <div className="text-xs text-sidebar-foreground/50 uppercase tracking-wider font-bold mb-2 px-2">
-              {open ? "Menu Principal" : "Menu"}
+          {/* Main Navigation - MacOS style */}
+          <div className="mt-6 px-4">
+            <div className="text-xs text-sidebar-foreground/50 uppercase tracking-wider font-bold mb-3 px-2">
+              {open ? "Menu Principal" : ""}
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               {links.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
-                  <div
+                  <motion.div
                     key={link.path}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     className={cn(
-                      "flex items-center py-2 px-3 rounded-xl cursor-pointer transition-all duration-300",
+                      "flex items-center py-2 px-3 cursor-pointer transition-all duration-200 rounded-xl",
                       isActive
                         ? "bg-sidebar-accent text-sidebar-foreground font-medium"
                         : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
@@ -107,7 +105,10 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                       }
                     }}
                   >
-                    <link.icon className="h-5 w-5 flex-shrink-0" />
+                    <link.icon className={cn(
+                      "flex-shrink-0 transition-all",
+                      open ? "h-5 w-5" : "h-6 w-6"
+                    )} />
                     <AnimatePresence>
                       {open && (
                         <motion.span
@@ -120,7 +121,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                         </motion.span>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -128,7 +129,9 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           
           {/* Collapsible button */}
           <div className="mt-auto border-t border-sidebar-border p-4">
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setOpen(!open)}
               className="w-full rounded-xl py-2 flex items-center justify-center hover:bg-sidebar-accent/50 transition-all"
             >
@@ -137,7 +140,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
               ) : (
                 <ChevronRight className="h-5 w-5 text-sidebar-foreground" />
               )}
-            </button>
+            </motion.button>
           </div>
         </div>
       </motion.div>

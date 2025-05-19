@@ -39,14 +39,9 @@ const Layout = () => {
         </main>
       </div>
       
-      {/* Theme and admin buttons at the bottom of the screen (fixed position) */}
-      <div className="fixed bottom-6 left-6 z-20">
-        <div className={cn(
-          "transition-all duration-500 rounded-full p-2 bg-sidebar backdrop-blur-lg shadow-lg",
-          sidebarOpen ? "md:translate-x-64" : ""
-        )}>
-          <ThemeToggle />
-        </div>
+      {/* Theme toggle moved to a better position */}
+      <div className="fixed top-3 right-6 z-20">
+        <ThemeToggle />
       </div>
       
       <div className="fixed bottom-6 right-6 z-20">
