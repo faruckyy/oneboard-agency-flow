@@ -135,7 +135,7 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
   return (
     <motion.div 
       className={cn(
-        "border rounded-xl overflow-hidden transition-all duration-300 backdrop-blur-md bg-background/40 dark:bg-sidebar text-foreground shadow-md border-border relative card-hover",
+        "border rounded-xl overflow-hidden transition-all duration-300 backdrop-blur-md bg-background/40 dark:bg-sidebar/95 text-foreground shadow-md border-border relative card-hover",
         expanded ? "shadow-lg" : "shadow-md"
       )}
       initial={{ opacity: 0, y: 10 }}

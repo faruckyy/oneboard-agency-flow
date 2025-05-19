@@ -31,7 +31,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
   ];
 
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       {/* Mobile overlay */}
       <AnimatePresence>
         {open && (
@@ -48,7 +48,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
       
       {/* Sidebar - MacOS inspired */}
       <motion.div 
-        className="fixed z-20 inset-y-0 left-0 bg-sidebar flex flex-col transition-all duration-500 ease-in-out"
+        className="fixed z-20 inset-y-0 left-0 flex flex-col transition-all duration-500 ease-in-out"
         animate={{ width: open ? 256 : 80 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
@@ -128,6 +128,16 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                             </motion.span>
                           )}
                         </AnimatePresence>
+                        {isActive && (
+                          <motion.div 
+                            layoutId="active-indicator"
+                            className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-md"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        )}
                       </motion.div>
                     </TooltipTrigger>
                     {!open && (
@@ -141,7 +151,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
             </div>
           </div>
           
-          {/* Collapsible button */}
+          {/* Collapsible button - more macOS style */}
           <div className="mt-auto border-t border-sidebar-border p-4">
             <motion.button 
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}

@@ -43,7 +43,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
     }
   }, [initialData, isOpen]);
 
-  // Prevenção de scroll quando modal estiver aberto
+  // Prevent scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -124,7 +124,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
             onClick={onClose} 
           />
           
-          {/* Modal with macOS-inspired design */}
+          {/* Modal with enhanced macOS-inspired design */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -135,6 +135,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               damping: 30 
             }}
             className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl max-h-[90vh] overflow-y-auto z-50 bg-background/95 dark:bg-sidebar/95 rounded-2xl shadow-2xl border border-border"
+            onClick={(e) => e.stopPropagation()}
           >
             {/* macOS-style header */}
             <div className="sticky top-0 z-10 bg-background/80 dark:bg-sidebar/80 backdrop-blur-lg px-6 py-4 border-b border-border/50 flex items-center justify-between rounded-t-2xl">
@@ -158,7 +159,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               </Button>
             </div>
             
-            {/* Content */}
+            {/* Content with improved styling */}
             <div className="p-6 space-y-8">
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -310,7 +311,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               </div>
             </div>
             
-            {/* Footer with action buttons */}
+            {/* Footer with MacOS-style action buttons */}
             <div className="sticky bottom-0 z-10 bg-background/80 dark:bg-sidebar/80 backdrop-blur-lg px-6 py-4 border-t border-border/50 flex justify-end gap-3 rounded-b-2xl">
               <Button 
                 variant="outline" 

@@ -101,6 +101,7 @@
 @layer base {
   * {
     @apply border-border;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
   }
 
   body {
@@ -126,12 +127,12 @@
     @apply rounded-full transition-all duration-200 hover:scale-105 active:scale-95;
   }
 
-  /* Card styles */
+  /* Enhanced card styles */
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:scale-[1.01] hover:-translate-y-0.5;
+    @apply transition-all duration-300 hover:shadow-lg hover:scale-[1.01] hover:-translate-y-0.5;
   }
 
-  /* Neumorphic components */
+  /* Enhanced neumorphic components */
   .neumorph-light {
     @apply bg-[#f0f0f0] dark:bg-[#1a1a1a] shadow-md transition-all;
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.1), -6px -6px 12px rgba(255, 255, 255, 0.8);
@@ -150,7 +151,7 @@
     box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(255, 255, 255, 0.05);
   }
 
-  /* Status badges */
+  /* Status badges with enhanced styling */
   .status-badge {
     @apply px-2 py-1 text-xs font-medium rounded-full transition-all duration-200;
   }
@@ -159,7 +160,7 @@
     @apply w-1 h-full rounded-l-md transition-all duration-200;
   }
   
-  /* Priority colors */
+  /* Priority colors with enhanced styling */
   .priority-urgent {
     @apply bg-priority-urgent/20 text-priority-urgent border-priority-urgent;
   }
@@ -172,25 +173,25 @@
     @apply bg-priority-low/20 text-priority-low border-priority-low;
   }
 
-  /* Task completed animation */
+  /* Enhanced task completed animation */
   .task-completed {
     @apply animate-task-complete;
   }
 
-  /* Modal fade in/out */
+  /* Enhanced modal animations */
   .modal-container {
     @apply animate-fade-in;
   }
 
   .modal-overlay {
-    @apply bg-black/50 animate-fade-in;
+    @apply bg-black/50 animate-fade-in backdrop-blur-sm;
   }
 
   .modal-content {
     @apply animate-scale-in;
   }
 
-  /* Sidebar styles */
+  /* Enhanced sidebar styles */
   .sidebar-container {
     @apply bg-sidebar text-sidebar-foreground h-screen fixed left-0 top-0 transition-all duration-300;
   }
@@ -199,7 +200,7 @@
     @apply w-16;
   }
   
-  /* MacOS Dock animation */
+  /* MacOS Dock animation - enhanced */
   .dock-item {
     @apply transition-all duration-200;
   }
@@ -212,7 +213,7 @@
     @apply scale-105;
   }
   
-  /* Bento grid */
+  /* Enhanced bento grid */
   .bento-grid {
     @apply grid gap-4 auto-rows-auto;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -224,6 +225,19 @@
   
   .bento-card:hover {
     @apply shadow-md border-border;
+  }
+  
+  /* MacOS style form elements */
+  .macos-input {
+    @apply h-9 px-3 rounded-md bg-background/50 dark:bg-sidebar-accent/30 border border-border/70 focus:border-primary focus:ring-0 transition-all duration-200;
+  }
+  
+  .macos-select {
+    @apply h-9 rounded-md bg-background/50 dark:bg-sidebar-accent/30 border border-border/70 focus:border-primary focus:ring-0 transition-all duration-200;
+  }
+  
+  .macos-checkbox {
+    @apply rounded-sm bg-background/50 dark:bg-sidebar-accent/30 border border-border/70 text-primary focus:ring-primary focus:ring-offset-0 transition-all duration-200;
   }
 }
 
@@ -275,4 +289,34 @@
 @keyframes slide-in-bottom {
   from { transform: translateY(20px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+/* MacOS-specific animations */
+@keyframes mac-button-press {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.animate-mac-press {
+  animation: mac-button-press 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Glass morphism effects - enhanced for macOS feel */
+.glass-morphism {
+  @apply backdrop-blur-lg bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Transition utilities */
+.transition-all-fast {
+  transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.transition-all-medium {
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.transition-all-slow {
+  transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
