@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { 
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger 
 } from "@/components/ui/tooltip";
 
@@ -24,27 +23,25 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
     <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-2 md:gap-6">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleSidebar}
-                  className="md:hidden"
-                >
-                  {isSidebarOpen ? (
-                    <X className="h-5 w-5 transition-transform duration-300" />
-                  ) : (
-                    <Menu className="h-5 w-5 transition-transform duration-300" />
-                  )}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                {isSidebarOpen ? "Fechar menu" : "Abrir menu"}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleSidebar}
+                className="md:hidden"
+              >
+                {isSidebarOpen ? (
+                  <X className="h-5 w-5 transition-transform duration-300" />
+                ) : (
+                  <Menu className="h-5 w-5 transition-transform duration-300" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {isSidebarOpen ? "Fechar menu" : "Abrir menu"}
+            </TooltipContent>
+          </Tooltip>
           
           <motion.h1
             onClick={() => navigate("/")}
