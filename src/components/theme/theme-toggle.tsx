@@ -28,7 +28,7 @@ export function ThemeToggle() {
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-full transition-all duration-300 bg-card/30 backdrop-blur-md border border-border/50 shadow-sm hover:shadow-md"
+            className="rounded-full transition-all duration-300 bg-card/50 backdrop-blur-md border border-border/50 shadow-sm hover:shadow-md"
           >
             <motion.div
               initial={{ rotate: 0 }}
@@ -36,9 +36,9 @@ export function ThemeToggle() {
               transition={{ duration: 0.5, type: "spring", stiffness: 200 }}
             >
               {theme === "dark" ? (
-                <Moon className="h-5 w-5 text-yellow-400 transition-all" />
+                <Moon className="h-5 w-5 text-primary transition-all" />
               ) : (
-                <Sun className="h-5 w-5 text-amber-500 transition-all" />
+                <Sun className="h-5 w-5 text-primary transition-all" />
               )}
             </motion.div>
             <span className="sr-only">Alternar tema</span>

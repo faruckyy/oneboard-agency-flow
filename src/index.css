@@ -15,8 +15,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
 
-    /* Amarelo mais moderno com gradiente para o tema claro */
-    --primary: 45 93% 47%;  /* Amarelo */
+    /* Trocando amarelo por azul como cor primária */
+    --primary: 210 100% 50%;  /* Azul */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 20% 96%;
@@ -33,24 +33,24 @@
 
     /* Priority colors - mais vibrantes */
     --priority-urgent: 0 90% 60%;
-    --priority-normal: 45 93% 47%;  /* Amarelo */
+    --priority-normal: 210 100% 50%;  /* Azul */
     --priority-low: 142 76% 45%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 45 93% 47%;  /* Amarelo */
+    --ring: 210 100% 50%;  /* Azul */
 
     --radius: 0.75rem;
 
-    /* Sidebar específico - tema mais escuro com transparência */
-    --sidebar-background: 230 30% 15% / 90%;
+    /* Sidebar específico - tema mais escuro com menor transparência */
+    --sidebar-background: 230 30% 15% / 95%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 45 93% 47%;  /* Amarelo */
+    --sidebar-primary: 210 100% 50%;  /* Azul */
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 215 25% 27% / 50%;
+    --sidebar-accent: 215 25% 27% / 70%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 20% / 20%;
-    --sidebar-ring: 45 93% 47%;  /* Amarelo */
+    --sidebar-border: 215 25% 20% / 30%;
+    --sidebar-ring: 210 100% 50%;  /* Azul */
   }
 
   .dark {
@@ -58,14 +58,14 @@
     --background: 230 25% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 230 25% 12% / 80%;
+    --card: 230 25% 12% / 90%;
     --card-foreground: 210 40% 98%;
 
     --popover: 230 25% 12%;
     --popover-foreground: 210 40% 98%;
 
-    /* Amarelo para o tema escuro */
-    --primary: 45 93% 47%;  /* Amarelo */
+    /* Azul para o tema escuro */
+    --primary: 210 100% 60%;  /* Azul */
     --primary-foreground: 0 0% 0%;
 
     --secondary: 215 25% 18%;
@@ -82,22 +82,22 @@
 
     /* Priority colors no modo escuro */
     --priority-urgent: 0 90% 65%;
-    --priority-normal: 45 93% 47%;  /* Amarelo */
+    --priority-normal: 210 100% 60%;  /* Azul */
     --priority-low: 142 76% 45%;
 
-    --border: 215 25% 20% / 30%;
+    --border: 215 25% 20% / 45%;
     --input: 215 25% 20%;
-    --ring: 45 93% 47%;  /* Amarelo */
+    --ring: 210 100% 60%;  /* Azul */
 
-    /* Sidebar específico - mais escuro com transparência no tema escuro */
-    --sidebar-background: 230 30% 12% / 70%;
+    /* Sidebar específico - mais escuro com menor transparência no tema escuro */
+    --sidebar-background: 230 30% 12% / 90%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 45 93% 47%;  /* Amarelo */
+    --sidebar-primary: 210 100% 60%;  /* Azul */
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 215 25% 24% / 50%;
+    --sidebar-accent: 215 25% 24% / 70%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 18% / 20%;
-    --sidebar-ring: 45 93% 47%;  /* Amarelo */
+    --sidebar-border: 215 25% 18% / 40%;
+    --sidebar-ring: 210 100% 60%;  /* Azul */
   }
 }
 

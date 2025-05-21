@@ -44,13 +44,13 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
               duration: appleDuration.standard,
               ease: appleEasing.standard
             }}
-            className="fixed inset-0 z-10 bg-black/50 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-10 bg-black/60 backdrop-blur-sm md:hidden"
             onClick={() => setOpen(false)}
           />
         )}
       </AnimatePresence>
       
-      {/* Sidebar - Design moderno */}
+      {/* Sidebar - Design moderno com menor transparência */}
       <motion.div 
         className="fixed z-20 inset-y-0 left-0 flex flex-col"
         animate={{ width: open ? 256 : 80 }}
@@ -59,7 +59,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           ease: appleEasing.standard
         }}
       >
-        <div className="flex flex-col h-full overflow-hidden backdrop-blur-md bg-sidebar-background shadow-lg border-r border-sidebar-border">
+        <div className="flex flex-col h-full overflow-hidden bg-sidebar-background shadow-lg border-r border-sidebar-border">
           {/* Space for header */}
           <div className="h-16 flex-shrink-0"></div>
           
@@ -85,7 +85,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           </div>
           
           {/* Main Navigation */}
-          <div className="mt-6 px-4">
+          <div className="mt-6 px-3">
             <AnimatePresence>
               {open && (
                 <motion.div
@@ -93,13 +93,13 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
-                  className="text-xs text-sidebar-foreground/50 uppercase tracking-wider font-bold mb-3 px-2"
+                  className="text-xs text-sidebar-foreground/70 uppercase tracking-wider font-bold mb-3 px-2"
                 >
                   Menu Principal
                 </motion.div>
               )}
             </AnimatePresence>
-            <div className="space-y-2">
+            <div className="space-y-1">
               {links.map((link) => {
                 const isActive = location.pathname === link.path;
                 return (
@@ -110,10 +110,10 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                         whileTap={{ scale: 0.98 }}
                         transition={{ duration: appleDuration.short, ease: appleEasing.button }}
                         className={cn(
-                          "flex items-center py-2 px-3 cursor-pointer transition-all duration-200 rounded-xl",
+                          "flex items-center py-2 px-3 cursor-pointer transition-all duration-200 rounded-xl relative",
                           isActive
                             ? "bg-sidebar-accent text-primary font-medium"
-                            : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+                            : "text-sidebar-foreground/80 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
                         )}
                         onClick={() => {
                           navigate(link.path);
@@ -133,7 +133,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                               animate={{ opacity: 1, x: 0, width: 'auto' }}
                               exit={{ opacity: 0, x: -10, width: 0 }}
                               transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
-                              className="ml-3 text-sm truncate"
+                              className="ml-3 text-sm"
                             >
                               {link.name}
                             </motion.span>
@@ -152,7 +152,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                       </motion.div>
                     </TooltipTrigger>
                     {!open && (
-                      <TooltipContent side="right">
+                      <TooltipContent side="right" className="bg-background/90 backdrop-blur-sm">
                         {link.name}
                       </TooltipContent>
                     )}
@@ -163,7 +163,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           </div>
           
           {/* Collapsible button */}
-          <div className="mt-auto border-t border-sidebar-border p-4">
+          <div className="mt-auto border-t border-sidebar-border p-3">
             <motion.button 
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.95 }}

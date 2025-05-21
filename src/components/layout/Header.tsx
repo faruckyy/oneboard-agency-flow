@@ -23,7 +23,7 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
 
   return (
     <TooltipProvider>
-      <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-lg bg-background/40 dark:bg-sidebar-background/40 border-b border-border/40">
+      <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-lg bg-background/70 dark:bg-sidebar-background/70 border-b border-border/50 shadow-sm">
         <div className="flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2 md:gap-6">
             <Tooltip>
@@ -35,7 +35,7 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
                     duration: appleDuration.short,
                     ease: appleEasing.button
                   }}
-                  className="p-2 rounded-full hover:bg-background/60 dark:hover:bg-sidebar-accent/30 transition-colors"
+                  className="p-2 rounded-full hover:bg-background/80 dark:hover:bg-sidebar-accent/50 transition-colors"
                   onClick={toggleSidebar}
                 >
                   {isSidebarOpen ? (
@@ -71,7 +71,7 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
           </div>
           
           <div className="flex items-center gap-4">
-            <div className="text-sm font-medium text-muted-foreground hidden md:block">
+            <div className="text-sm font-medium text-foreground/80 hidden md:block">
               {new Date().toLocaleDateString('pt-BR', { 
                 weekday: 'long', 
                 year: 'numeric', 
