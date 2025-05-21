@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Brush, LineChart, ClipboardList, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
