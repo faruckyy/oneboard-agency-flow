@@ -7,14 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-
-// Apple-style easing curves
-const appleEasing = {
-  standard: [0.2, 0.65, 0.3, 0.9],
-  entrance: [0, 0.5, 0.25, 1],
-  exit: [0.25, 0, 1, 0.5],
-  button: [0.25, 0.1, 0.25, 1]
-};
+import { appleEasing, appleDuration } from "@/utils/animation";
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -39,7 +32,10 @@ const Layout = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, ease: appleEasing.entrance }}
+      transition={{ 
+        duration: appleDuration.standard, 
+        ease: appleEasing.entrance 
+      }}
       className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-background/90"
     >
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isSidebarOpen={sidebarOpen} />
@@ -49,7 +45,7 @@ const Layout = () => {
         
         <motion.main 
           className={cn(
-            "flex-1 transition-all duration-300 pt-20",
+            "flex-1 pt-20",
             sidebarOpen ? "md:pl-64" : "md:pl-20",
             "px-4 py-4 md:px-6 lg:px-8"
           )}
@@ -57,9 +53,7 @@ const Layout = () => {
             paddingLeft: sidebarOpen ? (isMobile ? "1rem" : "16rem") : (isMobile ? "1rem" : "5rem")
           }}
           transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 30,
+            duration: appleDuration.standard,
             ease: appleEasing.standard
           }}
         >
@@ -71,7 +65,7 @@ const Layout = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ 
-                  duration: 0.4, 
+                  duration: appleDuration.standard, 
                   ease: appleEasing.standard 
                 }}
                 className="w-full"
@@ -85,21 +79,21 @@ const Layout = () => {
       
       <div className="fixed bottom-6 right-6 z-20">
         <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
           transition={{ 
-            duration: 0.2,
+            duration: appleDuration.short,
             ease: appleEasing.button
           }}
         >
           <Button 
             variant="outline"
             onClick={() => window.location.href = '/admin'}
-            className="rounded-full backdrop-blur-lg shadow-lg hover:shadow-xl transition-all duration-300
-                      border border-[rgba(255,255,255,0.2)] bg-background/80 dark:bg-sidebar/80"
+            className="rounded-full backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-200
+                      border border-[rgba(255,255,255,0.2)] bg-background/90 dark:bg-sidebar/80"
           >
             <Settings className="h-5 w-5 mr-2 text-primary" />
-            Admin
+            <span className="font-medium">Admin</span>
           </Button>
         </motion.div>
       </div>
