@@ -1,11 +1,13 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X, Plus, Paperclip, Link as LinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { appleEasing, appleDuration } from "@/utils/animation";
 
 interface TaskBriefingProps {
   isOpen: boolean;
@@ -34,6 +36,10 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
   const [formData, setFormData] = useState<BriefingData>(initialBriefingData);
   const [newLink, setNewLink] = useState("");
   const [newRef, setNewRef] = useState("");
+  const modalRef = useRef<HTMLDivElement>(null);
+  
+  // Track element to return focus to when modal closes
+  const returnFocusRef = useRef<HTMLElement | null>(null);
   
   useEffect(() => {
     if (initialData) {
@@ -43,17 +49,45 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
     }
   }, [initialData, isOpen]);
 
-  // Prevent scroll when modal is open
+  // Manage focus and prevent scroll when modal is open
   useEffect(() => {
     if (isOpen) {
+      // Store the currently focused element
+      returnFocusRef.current = document.activeElement as HTMLElement;
+      
+      // Prevent body scroll
       document.body.style.overflow = 'hidden';
+      
+      // Focus the modal
+      setTimeout(() => {
+        modalRef.current?.focus();
+      }, 100);
     } else {
+      // Restore scroll
       document.body.style.overflow = 'unset';
+      
+      // Return focus to the previous element
+      setTimeout(() => {
+        returnFocusRef.current?.focus();
+      }, 100);
     }
+    
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -110,22 +144,29 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
     });
   };
 
-  return (
+  // Use portal to render modal at the root level of the DOM
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop - MacOS style blur */}
+          {/* Backdrop with macOS-style blur */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
             className="fixed inset-0 bg-black/30 backdrop-blur-md z-50" 
             onClick={onClose} 
+            aria-hidden="true"
           />
           
           {/* Modal with enhanced macOS-inspired design */}
           <motion.div 
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            tabIndex={-1}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -145,7 +186,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
               
-              <h2 className="text-xl font-semibold text-center flex-1 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-display">
+              <h2 id="modal-title" className="text-xl font-semibold text-center flex-1 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-display">
                 Briefing
               </h2>
               
@@ -154,6 +195,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                 variant="ghost" 
                 size="icon" 
                 className="rounded-full hover:bg-background/60 dark:hover:bg-sidebar-accent/50"
+                aria-label="Close"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -231,7 +273,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
                         className="flex items-center justify-between p-3 bg-background/40 dark:bg-sidebar-accent/20 backdrop-blur-sm rounded-lg border border-border/50"
                       >
                         <div className="flex items-center gap-2 text-sm truncate">
@@ -292,7 +334,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
                         className="flex items-center justify-between p-3 bg-background/40 dark:bg-sidebar-accent/20 backdrop-blur-sm rounded-lg border border-border/50"
                       >
                         <span className="text-sm truncate">{ref}</span>
@@ -330,7 +372,8 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 
