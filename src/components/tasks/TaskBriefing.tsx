@@ -144,49 +144,49 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
     });
   };
 
-  // Use portal to render modal at the root level of the DOM
+  // Use portal to render modal at the root level of the DOM - always centralized
   return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop with macOS-style blur */}
+          {/* Backdrop com blur moderno */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
-            className="fixed inset-0 bg-black/30 backdrop-blur-md z-50" 
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-50" 
             onClick={onClose} 
             aria-hidden="true"
           />
           
-          {/* Modal with enhanced macOS-inspired design */}
+          {/* Modal centralizado e responsivo */}
           <motion.div 
             ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="modal-title"
             tabIndex={-1}
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             transition={{ 
               type: "spring", 
               stiffness: 400, 
               damping: 30 
             }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl max-h-[90vh] overflow-y-auto z-50 bg-background/95 dark:bg-sidebar/95 rounded-2xl shadow-2xl border border-border"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl max-h-[90vh] overflow-y-auto z-50 bg-card dark:bg-sidebar-background border border-border rounded-2xl shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* macOS-style header */}
-            <div className="sticky top-0 z-10 bg-background/80 dark:bg-sidebar/80 backdrop-blur-lg px-6 py-4 border-b border-border/50 flex items-center justify-between rounded-t-2xl">
+            {/* Cabeçalho moderno */}
+            <div className="sticky top-0 z-10 bg-card/80 dark:bg-sidebar-background/80 backdrop-blur-lg px-6 py-4 border-b border-border/50 flex items-center justify-between rounded-t-2xl">
               <div className="flex items-center gap-2">
                 <div onClick={onClose} className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 cursor-pointer transition-colors" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
               
-              <h2 id="modal-title" className="text-xl font-semibold text-center flex-1 bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent font-display">
+              <h2 id="modal-title" className="text-xl font-bold text-center flex-1 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                 Briefing
               </h2>
               
@@ -194,14 +194,14 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                 onClick={onClose} 
                 variant="ghost" 
                 size="icon" 
-                className="rounded-full hover:bg-background/60 dark:hover:bg-sidebar-accent/50"
-                aria-label="Close"
+                className="rounded-full hover:bg-card/60 dark:hover:bg-sidebar-accent/50"
+                aria-label="Fechar"
               >
                 <X className="h-4 w-4" />
               </Button>
             </div>
             
-            {/* Content with improved styling */}
+            {/* Conteúdo do modal com espaçamento melhorado */}
             <div className="p-6 space-y-8">
               <div className="space-y-4">
                 <div className="space-y-2">
@@ -245,7 +245,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                 </div>
               </div>
               
-              {/* Links section - Bento-inspired grid layout */}
+              {/* Links section */}
               <div className="bg-background/30 dark:bg-sidebar-accent/10 backdrop-blur-md p-6 rounded-xl border border-border/50 shadow-sm">
                 <h3 className="text-lg font-medium mb-4">Links</h3>
                 <div className="flex gap-2 mb-4">
@@ -294,7 +294,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                 </div>
               </div>
               
-              {/* File Upload - Bento-inspired card */}
+              {/* File Upload */}
               <div className="bg-background/30 dark:bg-sidebar-accent/10 backdrop-blur-md p-6 rounded-xl border border-border/50 shadow-sm">
                 <h3 className="text-lg font-medium mb-4">Arquivos</h3>
                 <div 
@@ -306,7 +306,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
                 </div>
               </div>
               
-              {/* Visual References - Bento-inspired layout */}
+              {/* Visual References */}
               <div className="bg-background/30 dark:bg-sidebar-accent/10 backdrop-blur-md p-6 rounded-xl border border-border/50 shadow-sm">
                 <h3 className="text-lg font-medium mb-4">Referências Visuais</h3>
                 <div className="flex gap-2 mb-4">
@@ -353,8 +353,8 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               </div>
             </div>
             
-            {/* Footer with MacOS-style action buttons */}
-            <div className="sticky bottom-0 z-10 bg-background/80 dark:bg-sidebar/80 backdrop-blur-lg px-6 py-4 border-t border-border/50 flex justify-end gap-3 rounded-b-2xl">
+            {/* Footer com botões */}
+            <div className="sticky bottom-0 z-10 bg-card/80 dark:bg-sidebar-background/80 backdrop-blur-lg px-6 py-4 border-t border-border/50 flex justify-end gap-3 rounded-b-2xl">
               <Button 
                 variant="outline" 
                 onClick={onClose}
@@ -364,7 +364,7 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               </Button>
               <Button 
                 onClick={handleSubmit}
-                className="bg-primary hover:bg-primary/90 rounded-full px-6"
+                className="bg-primary hover:bg-primary/90 rounded-full px-6 text-primary-foreground"
               >
                 Salvar Briefing
               </Button>

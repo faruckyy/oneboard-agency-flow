@@ -50,7 +50,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
         )}
       </AnimatePresence>
       
-      {/* Sidebar - MacOS inspired with less rounded borders */}
+      {/* Sidebar - Design moderno */}
       <motion.div 
         className="fixed z-20 inset-y-0 left-0 flex flex-col"
         animate={{ width: open ? 256 : 80 }}
@@ -59,7 +59,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
           ease: appleEasing.standard
         }}
       >
-        <div className="flex flex-col h-full rounded-r-lg overflow-hidden backdrop-blur-md bg-sidebar/95 shadow-2xl border-r border-sidebar-border">
+        <div className="flex flex-col h-full overflow-hidden backdrop-blur-md bg-sidebar-background shadow-lg border-r border-sidebar-border">
           {/* Space for header */}
           <div className="h-16 flex-shrink-0"></div>
           
@@ -84,7 +84,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
             </AnimatePresence>
           </div>
           
-          {/* Main Navigation - MacOS style */}
+          {/* Main Navigation */}
           <div className="mt-6 px-4">
             <AnimatePresence>
               {open && (
@@ -112,7 +112,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
                         className={cn(
                           "flex items-center py-2 px-3 cursor-pointer transition-all duration-200 rounded-xl",
                           isActive
-                            ? "bg-sidebar-accent text-sidebar-foreground font-medium"
+                            ? "bg-sidebar-accent text-primary font-medium"
                             : "text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
                         )}
                         onClick={() => {
@@ -162,7 +162,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
             </div>
           </div>
           
-          {/* Collapsible button - more macOS style */}
+          {/* Collapsible button */}
           <div className="mt-auto border-t border-sidebar-border p-4">
             <motion.button 
               whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}

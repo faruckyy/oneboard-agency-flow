@@ -36,7 +36,7 @@ const Layout = () => {
         duration: appleDuration.standard, 
         ease: appleEasing.entrance 
       }}
-      className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-background/90"
+      className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-background/98"
     >
       <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} isSidebarOpen={sidebarOpen} />
       
@@ -89,8 +89,8 @@ const Layout = () => {
           <Button 
             variant="outline"
             onClick={() => window.location.href = '/admin'}
-            className="rounded-full backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-200
-                      border border-[rgba(255,255,255,0.2)] bg-background/90 dark:bg-sidebar/80"
+            className="rounded-full shadow-sm hover:shadow-md transition-all duration-200
+                      bg-card/90 border-border/50 dark:bg-card/90 dark:border-border/50"
           >
             <Settings className="h-5 w-5 mr-2 text-primary" />
             <span className="font-medium">Admin</span>

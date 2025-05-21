@@ -8,6 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger
 } from "@/components/ui/tooltip";
+import { appleEasing, appleDuration } from "@/utils/animation";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -18,12 +19,16 @@ export function ThemeToggle() {
         <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          transition={{ 
+            duration: appleDuration.short,
+            ease: appleEasing.button
+          }}
         >
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="rounded-full transition-all duration-500 bg-background/50 backdrop-blur-lg border border-border shadow-sm hover:shadow-md"
+            className="rounded-full transition-all duration-300 bg-card/50 backdrop-blur-md border border-border/50 shadow-sm hover:shadow-md"
           >
             <motion.div
               initial={{ rotate: 0 }}
@@ -33,7 +38,7 @@ export function ThemeToggle() {
               {theme === "dark" ? (
                 <Moon className="h-5 w-5 text-primary transition-all" />
               ) : (
-                <Sun className="h-5 w-5 text-amber-500 transition-all" />
+                <Sun className="h-5 w-5 text-primary transition-all" />
               )}
             </motion.div>
             <span className="sr-only">Alternar tema</span>

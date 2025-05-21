@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger 
 } from "@/components/ui/tooltip";
+import { appleEasing, appleDuration } from "@/utils/animation";
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -22,7 +23,7 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
 
   return (
     <TooltipProvider>
-      <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-lg bg-background/40 dark:bg-sidebar/40 border-b border-border/40">
+      <header className="fixed top-0 left-0 right-0 z-20 w-full backdrop-blur-lg bg-background/40 dark:bg-sidebar-background/40 border-b border-border/40">
         <div className="flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-2 md:gap-6">
             <Tooltip>
@@ -30,13 +31,17 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  transition={{ 
+                    duration: appleDuration.short,
+                    ease: appleEasing.button
+                  }}
                   className="p-2 rounded-full hover:bg-background/60 dark:hover:bg-sidebar-accent/30 transition-colors"
                   onClick={toggleSidebar}
                 >
                   {isSidebarOpen ? (
-                    <X className="h-5 w-5 transition-transform duration-300" />
+                    <X className="h-5 w-5 text-foreground transition-transform duration-300" />
                   ) : (
-                    <Menu className="h-5 w-5 transition-transform duration-300" />
+                    <Menu className="h-5 w-5 text-foreground transition-transform duration-300" />
                   )}
                 </motion.button>
               </TooltipTrigger>
@@ -50,12 +55,16 @@ const Header = ({ toggleSidebar, isSidebarOpen }: HeaderProps) => {
               className="text-2xl font-bold cursor-pointer transition-all hover:text-primary flex items-center gap-3"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              transition={{ 
+                duration: appleDuration.short,
+                ease: appleEasing.button
+              }}
             >
-              {/* Logo no estilo MacOS */}
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-500 dark:to-orange-600 flex items-center justify-center text-black font-semibold shadow-lg">
+              {/* Logo moderno */}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-white font-bold shadow-md">
                 O
               </div>
-              <span className="hidden sm:inline font-display bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              <span className="hidden sm:block font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent tracking-tight">
                 OneBoard
               </span>
             </motion.div>
