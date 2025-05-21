@@ -15,8 +15,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
 
-    /* Azul mais vibrante e moderno para o tema claro */
-    --primary: 231 100% 60%;
+    /* Amarelo mais moderno com gradiente para o tema claro */
+    --primary: 45 93% 47%;  /* Amarelo */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 20% 96%;
@@ -33,40 +33,40 @@
 
     /* Priority colors - mais vibrantes */
     --priority-urgent: 0 90% 60%;
-    --priority-normal: 217 100% 60%;
+    --priority-normal: 45 93% 47%;  /* Amarelo */
     --priority-low: 142 76% 45%;
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 231 100% 60%;
+    --ring: 45 93% 47%;  /* Amarelo */
 
     --radius: 0.75rem;
 
-    /* Sidebar específico - tema mais escuro para contraste */
-    --sidebar-background: 230 30% 15%;
+    /* Sidebar específico - tema mais escuro com transparência */
+    --sidebar-background: 230 30% 15% / 90%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 231 100% 65%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 27%;
+    --sidebar-primary: 45 93% 47%;  /* Amarelo */
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 215 25% 27% / 50%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 20%;
-    --sidebar-ring: 231 100% 65%;
+    --sidebar-border: 215 25% 20% / 20%;
+    --sidebar-ring: 45 93% 47%;  /* Amarelo */
   }
 
   .dark {
-    /* Modo Escuro - Paleta mais rica e profunda */
+    /* Modo Escuro - Paleta moderna e rica */
     --background: 230 25% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 230 25% 12%;
+    --card: 230 25% 12% / 80%;
     --card-foreground: 210 40% 98%;
 
     --popover: 230 25% 12%;
     --popover-foreground: 210 40% 98%;
 
-    /* Azul mais vibrante para o tema escuro */
-    --primary: 231 100% 65%;
-    --primary-foreground: 0 0% 100%;
+    /* Amarelo para o tema escuro */
+    --primary: 45 93% 47%;  /* Amarelo */
+    --primary-foreground: 0 0% 0%;
 
     --secondary: 215 25% 18%;
     --secondary-foreground: 210 40% 98%;
@@ -82,22 +82,22 @@
 
     /* Priority colors no modo escuro */
     --priority-urgent: 0 90% 65%;
-    --priority-normal: 217 100% 70%;
+    --priority-normal: 45 93% 47%;  /* Amarelo */
     --priority-low: 142 76% 45%;
 
-    --border: 215 25% 20%;
+    --border: 215 25% 20% / 30%;
     --input: 215 25% 20%;
-    --ring: 231 100% 65%;
+    --ring: 45 93% 47%;  /* Amarelo */
 
-    /* Sidebar específico - mais escuro ainda no tema escuro */
-    --sidebar-background: 230 30% 12%;
+    /* Sidebar específico - mais escuro com transparência no tema escuro */
+    --sidebar-background: 230 30% 12% / 70%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 231 100% 70%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 24%;
+    --sidebar-primary: 45 93% 47%;  /* Amarelo */
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 215 25% 24% / 50%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 25% 18%;
-    --sidebar-ring: 231 100% 70%;
+    --sidebar-border: 215 25% 18% / 20%;
+    --sidebar-ring: 45 93% 47%;  /* Amarelo */
   }
 }
 
@@ -115,7 +115,7 @@
 @layer components {
   /* MacOS inspired components */
   .macos-window {
-    @apply bg-background/95 dark:bg-sidebar/95 backdrop-blur-md rounded-2xl shadow-xl border border-border/50;
+    @apply bg-background/80 dark:bg-sidebar/80 backdrop-blur-md rounded-2xl shadow-xl border border-border/50;
   }
   
   .macos-header {
@@ -196,7 +196,7 @@
 
   /* Enhanced sidebar styles */
   .sidebar-container {
-    @apply bg-sidebar text-sidebar-foreground h-screen fixed left-0 top-0 transition-all duration-300;
+    @apply bg-sidebar text-sidebar-foreground backdrop-blur-md h-screen fixed left-0 top-0 transition-all duration-300;
   }
 
   .sidebar-collapsed {
@@ -305,7 +305,7 @@
   animation: mac-button-press 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-/* Glass morphism effects - enhanced for macOS feel */
+/* Glass morphism effects - enhanced for modern feel */
 .glass-morphism {
   @apply backdrop-blur-lg bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -322,4 +322,31 @@
 
 .transition-all-slow {
   transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Sidebar transparency */
+.sidebar-transparent {
+  background-color: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Yellow focused theme */
+.yellow-theme {
+  --primary: 45 93% 47%;
+  --ring: 45 93% 47%;
+  --priority-normal: 45 93% 47%;
+}
+
+/* Additional gradient backgrounds */
+.yellow-gradient {
+  background: linear-gradient(to right, #ffd046, #ffbe0b);
+}
+
+.cyan-gradient {
+  background: linear-gradient(to right, #4cc9f0, #06b6d4);
+}
+
+.pink-gradient {
+  background: linear-gradient(to right, #ff9ed8, #ff56a9);
 }

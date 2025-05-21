@@ -149,18 +149,18 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop com blur moderno */}
+          {/* Backdrop with blur */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: appleDuration.standard, ease: appleEasing.standard }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-md z-50" 
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center" 
             onClick={onClose} 
             aria-hidden="true"
           />
           
-          {/* Modal centralizado e responsivo */}
+          {/* Modal centralized and responsive */}
           <motion.div 
             ref={modalRef}
             role="dialog"
@@ -175,7 +175,12 @@ const TaskBriefing = ({ isOpen, onClose, onSave, initialData }: TaskBriefingProp
               stiffness: 400, 
               damping: 30 
             }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-4xl max-h-[90vh] overflow-y-auto z-50 bg-card dark:bg-sidebar-background border border-border rounded-2xl shadow-2xl"
+            className="fixed z-50 w-[95%] max-w-4xl max-h-[90vh] overflow-y-auto bg-card dark:bg-sidebar-background border border-border rounded-2xl shadow-2xl"
+            style={{
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Cabeçalho moderno */}

@@ -71,6 +71,17 @@ export default {
 					normal: 'hsl(var(--priority-normal))',
 					low: 'hsl(var(--priority-low))',
 				},
+				// Custom gradient colors for module cards
+				gradients: {
+					'yellow': '#FFD046',
+					'orange': '#FF7C43',
+					'pink': '#FF56A9',
+					'purple': '#9B5DE5',
+					'blue': '#0096C7',
+					'cyan': '#00B4D8',
+					'teal': '#02C39A', 
+					'green': '#65B741',
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

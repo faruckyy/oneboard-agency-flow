@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, FileText, Feather, Clock, AlertTriangle } from "lucide-react";
+import { ChevronDown, ChevronUp, FileText, Feather, Clock, AlertTriangle, Image as ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { 
@@ -31,7 +31,8 @@ export interface Task {
   assignedTo: string;
   status: TaskStatus;
   priority: TaskPriority;
-  briefing?: BriefingData;
+  briefings?: BriefingData[];
+  coverImage?: string;
 }
 
 interface TaskCardProps {
@@ -42,6 +43,9 @@ interface TaskCardProps {
 const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
   const [expanded, setExpanded] = useState(false);
   const [briefingOpen, setBriefingOpen] = useState(false);
+  const [currentBriefing, setCurrentBriefing] = useState<BriefingData | undefined>(undefined);
+  const [showImageInput, setShowImageInput] = useState(false);
+  const [imageUrl, setImageUrl] = useState(task.coverImage || "");
 
   const getPriorityColor = (priority: TaskPriority) => {
     switch (priority) {
@@ -126,10 +130,47 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
   };
 
   const handleSaveBriefing = (data: BriefingData) => {
+    const newBriefings = [...(task.briefings || [])];
+    
+    if (currentBriefing) {
+      // Edit existing briefing
+      const index = newBriefings.findIndex(b => b.title === currentBriefing.title);
+      if (index !== -1) {
+        newBriefings[index] = data;
+      } else {
+        newBriefings.push(data);
+      }
+    } else {
+      // Add new briefing
+      newBriefings.push(data);
+    }
+    
     onUpdate({
       ...task,
-      briefing: data,
+      briefings: newBriefings,
     });
+    
+    setCurrentBriefing(undefined);
+  };
+
+  const handleAddCoverImage = () => {
+    if (imageUrl) {
+      onUpdate({
+        ...task,
+        coverImage: imageUrl,
+      });
+      setShowImageInput(false);
+    }
+  };
+
+  const handleOpenNewBriefing = () => {
+    setCurrentBriefing(undefined);
+    setBriefingOpen(true);
+  };
+
+  const handleOpenExistingBriefing = (briefing: BriefingData) => {
+    setCurrentBriefing(briefing);
+    setBriefingOpen(true);
   };
 
   return (
@@ -149,6 +190,18 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
     >
       {/* Status indicator - MacOS style */}
       <div className={cn("absolute", getStatusIndicator(task.status))} />
+      
+      {/* Cover image if available */}
+      {task.coverImage && (
+        <div className="w-full h-32 relative">
+          <img 
+            src={task.coverImage} 
+            alt={`Capa para ${task.title}`} 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/80 dark:from-sidebar/80 to-transparent" />
+        </div>
+      )}
       
       {/* Card header */}
       <div className="p-5">
@@ -235,29 +288,124 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
                 </div>
               </div>
               
+              {/* Cover image section */}
               <div className="mt-6">
-                {task.briefing ? (
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Imagem de Capa
+                  </label>
                   <Button 
-                    onClick={() => setBriefingOpen(true)}
-                    variant="outline"
-                    className="w-full flex items-center gap-2 bg-background/40 dark:bg-sidebar-accent/40 backdrop-blur-sm border-border text-foreground hover:bg-background/60 dark:hover:bg-sidebar-accent rounded-xl h-auto py-4 group transition-all duration-300 shadow-sm hover:shadow-md"
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => setShowImageInput(!showImageInput)}
+                    className="text-xs"
                   >
-                    <FileText className="h-5 w-5 text-primary group-hover:scale-110 transition-transform duration-300" />
-                    <div className="flex flex-col items-start">
-                      <span className="font-medium">{task.briefing.title}</span>
-                      <span className="text-xs text-muted-foreground">{task.briefing.subtitle || "Ver detalhes do briefing"}</span>
+                    {task.coverImage ? "Alterar" : "Adicionar"}
+                  </Button>
+                </div>
+                
+                <AnimatePresence>
+                  {showImageInput && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="space-y-3 mb-4"
+                    >
+                      <input 
+                        type="text" 
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                        placeholder="URL da imagem de capa"
+                        className="w-full p-2 rounded-md bg-background/20 dark:bg-sidebar-accent/30 border border-border text-foreground"
+                      />
+                      <div className="flex justify-end gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setShowImageInput(false)}
+                        >
+                          Cancelar
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          onClick={handleAddCoverImage}
+                        >
+                          Salvar
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                
+                {task.coverImage && !showImageInput && (
+                  <div className="relative rounded-lg overflow-hidden h-24 mb-4 bg-background/20 dark:bg-sidebar-accent/30">
+                    <img src={task.coverImage} alt="Capa do projeto" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black/40 transition-opacity duration-200">
+                      <Button 
+                        size="sm" 
+                        variant="secondary" 
+                        onClick={() => setShowImageInput(true)}
+                      >
+                        <ImageIcon className="h-4 w-4 mr-2" />
+                        Alterar Imagem
+                      </Button>
                     </div>
-                  </Button>
-                ) : (
-                  <Button 
-                    onClick={() => setBriefingOpen(true)}
-                    variant="outline"
-                    className="w-full flex items-center gap-2 bg-background/40 dark:bg-sidebar-accent/40 backdrop-blur-sm border-border text-foreground hover:bg-background/60 dark:hover:bg-sidebar-accent rounded-xl h-auto py-4 transition-all duration-300"
-                  >
-                    <FileText className="h-5 w-5" />
-                    <span>Adicionar Briefing</span>
-                  </Button>
+                  </div>
                 )}
+              </div>
+              
+              {/* Briefings section */}
+              <div className="mt-4">
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    Briefings
+                  </label>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={handleOpenNewBriefing}
+                    className="text-xs flex items-center gap-1"
+                  >
+                    <FileText className="h-3 w-3" />
+                    Adicionar
+                  </Button>
+                </div>
+                
+                {/* List of existing briefings */}
+                <div className="space-y-2 mt-2">
+                  {(task.briefings || []).length > 0 ? (
+                    task.briefings?.map((briefing, index) => (
+                      <Button 
+                        key={index}
+                        onClick={() => handleOpenExistingBriefing(briefing)}
+                        variant="outline"
+                        className="w-full flex items-center gap-2 bg-background/40 dark:bg-sidebar-accent/40 backdrop-blur-sm border-border text-foreground hover:bg-background/60 dark:hover:bg-sidebar-accent rounded-xl h-auto py-3 justify-start group transition-all duration-300 shadow-sm hover:shadow-md"
+                      >
+                        <FileText className="h-5 w-5 text-primary group-hover:scale-110 transition-transform duration-300" />
+                        <div className="flex flex-col items-start text-left">
+                          <span className="font-medium">{briefing.title}</span>
+                          <span className="text-xs text-muted-foreground">{briefing.subtitle || "Ver detalhes"}</span>
+                        </div>
+                      </Button>
+                    ))
+                  ) : (
+                    <div className="text-sm text-center p-3 border border-dashed border-border rounded-lg">
+                      Nenhum briefing adicionado
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-3 text-center">
+                  <Button 
+                    onClick={handleOpenNewBriefing}
+                    variant="ghost"
+                    className="w-full flex items-center justify-center gap-2 text-primary"
+                  >
+                    <FileText className="h-4 w-4" />
+                    <span>Adicionar Novo Briefing</span>
+                  </Button>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -269,7 +417,7 @@ const TaskCard = ({ task, onUpdate }: TaskCardProps) => {
         isOpen={briefingOpen} 
         onClose={() => setBriefingOpen(false)} 
         onSave={handleSaveBriefing}
-        initialData={task.briefing}
+        initialData={currentBriefing}
       />
     </motion.div>
   );
