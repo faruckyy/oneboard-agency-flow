@@ -11,6 +11,7 @@ import CleaningPage from "./pages/CleaningPage";
 import DesignTasksPage from "./pages/DesignTasksPage";
 import CommercialTasksPage from "./pages/CommercialTasksPage";
 import AdminPage from "./pages/AdminPage";
+import CalculatorPage from "./pages/CalculatorPage"; // New import
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="design" element={<DesignTasksPage />} />
             <Route path="commercial" element={<CommercialTasksPage />} />
             <Route path="admin" element={<AdminPage />} />
+            <Route path="calculator" element={<CalculatorPage />} /> // New route
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

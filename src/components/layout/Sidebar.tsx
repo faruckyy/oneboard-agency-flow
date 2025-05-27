@@ -5,9 +5,10 @@ import {
   ClipboardList, 
   Brush, 
   LineChart, 
-  Settings, 
-  ChevronLeft, 
+  Settings,
+  ChevronLeft,
   ChevronRight,
+  Calculator, // New icon import
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,6 +30,7 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
     { name: "Tarefas de Design", icon: Brush, path: "/design" },
     { name: "Tarefas Comerciais", icon: LineChart, path: "/commercial" },
     { name: "Admin", icon: Settings, path: "/admin" },
+    { name: "Calculator", icon: Calculator, path: "/calculator" }, // New link
   ];
 
   return (
